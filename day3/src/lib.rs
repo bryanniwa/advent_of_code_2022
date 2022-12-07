@@ -4,18 +4,16 @@ pub fn part_one(lines: &Vec<String>) {
     let mut common_elements = Vec::new();
 
     for line in lines {
-        let section1 = line[..line.len() / 2].chars().collect::<HashSet<char>>();
-        let section2 = line[line.len() / 2..].chars().collect::<HashSet<char>>();
+        let section1 = line[..line.len() / 2].chars().collect();
+        let section2 = line[line.len() / 2..].chars().collect();
 
-        let common = section1.intersection(&section2).copied();
-        common_elements.extend(common);
+        common_elements.extend(intersection(vec![section1, section2]));
     }
     let value = calculate_value(common_elements);
 
     println!("Part one: {value}");
 }
 
-/* Find the common elements between every three lines in a vector of Strings */
 pub fn part_two(lines: &Vec<String>) {
     let mut common_elements = Vec::new();
 
