@@ -20,6 +20,7 @@ fn get_input() -> io::Result<Vec<String>> {
 fn main() -> io::Result<()> {
     let lines = get_input()?;
     day3::part_one(&lines);
+    day3::part_two(&lines);
 
     Ok(())
 }
