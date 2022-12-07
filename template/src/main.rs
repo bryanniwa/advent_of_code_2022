@@ -19,6 +19,9 @@ fn get_input() -> io::Result<Vec<String>> {
 
 fn main() -> io::Result<()> {
     let lines = get_input()?;
+    
+    part_one(&lines);
+    part_two(&lines);
 
     Ok(())
 }
