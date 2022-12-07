@@ -1,23 +1,29 @@
 pub fn part_one(lines: &[String]) {
     let ranges = get_ranges(lines);
-    let count = ranges.iter().filter(|pair| {
-        let (range1, range2) = pair;
-        let (min1, max1) = (range1[0], range1[1]);
-        let (min2, max2) = (range2[0], range2[1]);
-        (min1 <= min2 && max1 >= max2) || (min1 >= min2 && max1 <= max2)
-    }).count();
+    let count = ranges
+        .iter()
+        .filter(|pair| {
+            let (range1, range2) = pair;
+            let (min1, max1) = (range1[0], range1[1]);
+            let (min2, max2) = (range2[0], range2[1]);
+            (min1 <= min2 && max1 >= max2) || (min1 >= min2 && max1 <= max2)
+        })
+        .count();
 
     println!("Part one: {}", count);
 }
 
 pub fn part_two(lines: &[String]) {
     let ranges = get_ranges(lines);
-    let count = ranges.iter().filter(|pair| {
-        let (range1, range2) = pair;
-        let (min1, max1) = (range1[0], range1[1]);
-        let (min2, max2) = (range2[0], range2[1]);
-        (min2 >= min1 && min2 <= max1) || (min1 >= min2 && min1 <= max2)
-    }).count();
+    let count = ranges
+        .iter()
+        .filter(|pair| {
+            let (range1, range2) = pair;
+            let (min1, max1) = (range1[0], range1[1]);
+            let (min2, max2) = (range2[0], range2[1]);
+            (min2 >= min1 && min2 <= max1) || (min1 >= min2 && min1 <= max2)
+        })
+        .count();
 
     println!("Part two: {}", count);
 }
