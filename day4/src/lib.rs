@@ -4,9 +4,8 @@ pub fn part_one(lines: &[String]) {
         .iter()
         .filter(|pair| {
             let (range1, range2) = pair;
-            let (min1, max1) = (range1[0], range1[1]);
-            let (min2, max2) = (range2[0], range2[1]);
-            (min1 <= min2 && max1 >= max2) || (min1 >= min2 && max1 <= max2)
+            (range1.min <= range2.min && range1.max >= range2.max)
+                || (range1.min >= range2.min && range1.max <= range2.max)
         })
         .count();
 
@@ -19,30 +18,40 @@ pub fn part_two(lines: &[String]) {
         .iter()
         .filter(|pair| {
             let (range1, range2) = pair;
-            let (min1, max1) = (range1[0], range1[1]);
-            let (min2, max2) = (range2[0], range2[1]);
-            (min2 >= min1 && min2 <= max1) || (min1 >= min2 && min1 <= max2)
+            (range2.min >= range1.min && range2.min <= range1.max)
+                || (range1.min >= range2.min && range1.min <= range2.max)
         })
         .count();
 
     println!("Part two: {}", count);
 }
 
-fn get_ranges(lines: &[String]) -> Vec<(Vec<u32>, Vec<u32>)> {
+struct Range {
+    min: u32,
+    max: u32,
+}
+
+fn get_range(line: &str) -> Range {
+    let range = line
+        .split('-')
+        .map(|x| x.parse::<u32>().expect("Not a number"))
+        .collect::<Vec<u32>>();
+
+    Range {
+        min: range[0],
+        max: range[1],
+    }
+}
+
+fn get_ranges(lines: &[String]) -> Vec<(Range, Range)> {
     lines
         .iter()
         .map(|line| {
             let (elf1, elf2) = line.split_once(',').expect("No comma");
-            let range1 = elf1
-                .split('-')
-                .map(|x| x.parse::<u32>().expect("Not a number"))
-                .collect::<Vec<u32>>();
-            let range2 = elf2
-                .split('-')
-                .map(|x| x.parse::<u32>().expect("Not a number"))
-                .collect::<Vec<u32>>();
+            let range1 = get_range(elf1);
+            let range2 = get_range(elf2);
 
             (range1, range2)
         })
-        .collect::<Vec<(Vec<u32>, Vec<u32>)>>()
+        .collect()
 }
