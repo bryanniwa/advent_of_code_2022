@@ -18,11 +18,8 @@ pub fn part_one(lines: &[String]) {
         }
     }
 
-    let tops = stacks
-        .iter()
-        .map(|s| s.last().unwrap())
-        .fold(String::new(), |f, s| f + s.to_string().as_str());
-    println!("Part one: {:?}", tops);
+    print!("Part one: ");
+    print_results(stacks)
 }
 
 pub fn part_two(lines: &[String]) {
@@ -42,11 +39,16 @@ pub fn part_two(lines: &[String]) {
         stacks[to].extend(temp);
     }
 
+    print!("Part two: ");
+    print_results(stacks)
+}
+
+fn print_results(stacks: Vec<Vec<char>>) {
     let tops = stacks
         .iter()
         .map(|s| s.last().unwrap())
         .fold(String::new(), |f, s| f + s.to_string().as_str());
-    println!("Part two: {:?}", tops);
+    println!("{:?}", tops);
 }
 
 fn get_stacks(lines: &[String]) -> Vec<Vec<char>> {
