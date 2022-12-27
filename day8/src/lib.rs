@@ -1,3 +1,4 @@
+#[derive(Debug)]
 struct Tree {
     height: i32,
     seen: bool,
@@ -19,7 +20,8 @@ fn get_forest(lines: &[String]) -> Vec<Vec<Tree>> {
     forest
 }
 
-fn scan(forest: &mut [Vec<Tree>]) -> u32 {
+pub fn part_one(lines: &[String]) {
+    let mut forest = get_forest(lines);
     let mut count = 0;
     let mut col_tracker = vec![-1; forest[0].len()];
 
@@ -66,26 +68,60 @@ fn scan(forest: &mut [Vec<Tree>]) -> u32 {
         }
     }
 
-    count
-}
-
-pub fn part_one(lines: &[String]) {
-    let mut forest = get_forest(lines);
-    let count = scan(&mut forest);
-
-    for row in forest {
-        for tree in row {
-            match tree.seen {
-                true => print!("T"),
-                false => print!("F"),
-            }
-        }
-        println!();
-    }
-
     println!("Part one: {}", count);
 }
 
+fn scan(y: usize, x: usize, forest: &mut [Vec<Tree>]) -> u32 {
+    let height = forest[y][x].height;
+
+    let mut up = 0;
+    for i in (0..=y-1).rev() {
+        up += 1;
+        if height <= forest[i][x].height {
+            break;
+        }
+    }
+
+    let mut down = 0;
+    for i in y+1..forest.len() {
+        down += 1;
+        if height <= forest[i][x].height {
+            break;
+        }
+    }
+
+    let mut left = 0;
+    for i in (0..=x-1).rev() {
+        left += 1;
+        if height <= forest[y][i].height {
+            break;
+        }
+    };
+
+    let mut right = 0;
+    for i in x+1..forest[0].len() {
+        right += 1;
+        if height <= forest[y][i].height {
+            break;
+        }
+    }
+
+    up * down * left * right
+
+}
+
 pub fn part_two(lines: &[String]) {
-    println!("Not done yet");
+    let mut forest = get_forest(lines);
+    let mut max = 0;
+
+    for x in 1..forest[0].len()-1 {
+        for y in 1..forest.len()-1 {
+            let count = scan(x, y, &mut forest);
+            if count > max {
+                max = count;
+            }
+        }
+    }
+
+    println!("Part two: {}", max);
 }
